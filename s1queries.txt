@@ -1,0 +1,14 @@
+db.MasterHazardCategoryType.insert({"Index":1, "Order":1, "HazardCategoryType":"Natural and Environmental Hazards", "SystemId":1, "MasterHazardTypeId":1, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":2, "Order":2, "HazardCategoryType":"External Hazards", "SystemId":1, "MasterHazardTypeId":1, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":3, "Order":3, "HazardCategoryType":"Effect of the Facility on the Surroundings", "SystemId":1, "MasterHazardTypeId":1, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":4, "Order":4, "HazardCategoryType":"Infrastructure", "SystemId":1, "MasterHazardTypeId":1, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":5, "Order":5, "HazardCategoryType":"Environmental Damage", "SystemId":1, "MasterHazardTypeId":1, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":6, "Order":1, "HazardCategoryType":"Control Methods & Philosophy", "SystemId":1, "MasterHazardTypeId":2, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":7, "Order":2, "HazardCategoryType":"Fire and Explosion Hazards", "SystemId":1, "MasterHazardTypeId":2, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":8, "Order":3, "HazardCategoryType":"Process Hazards", "SystemId":1, "MasterHazardTypeId":2, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":9, "Order":4, "HazardCategoryType":"Utility System", "SystemId":1, "MasterHazardTypeId":2, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":10, "Order":5, "HazardCategoryType":"Maintenance Hazards", "SystemId":1, "MasterHazardTypeId":2, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":11, "Order":1, "HazardCategoryType":"Health Hazards", "SystemId":1, "MasterHazardTypeId":3, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":12, "Order":1, "HazardCategoryType":"Contingency Planning", "SystemId":1, "MasterHazardTypeId":4, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":13, "Order":2, "HazardCategoryType":"Competency", "SystemId":1, "MasterHazardTypeId":4, "ParendId":null});
+db.MasterHazardCategoryType.insert({"Index":14, "Order":1, "HazardCategoryType":"Construction Hazards", "SystemId":1, "MasterHazardTypeId":5, "ParendId":null});

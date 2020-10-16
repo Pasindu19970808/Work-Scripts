@@ -51,5 +51,43 @@ for (haztype,hazcat) in tuple(zip(df['Hazard Type'],df['Hazard Category'])):
 s1treebuilder = buildtree()
 haztypelist,s1tree = s1treebuilder.addnodes(s1rownodes)
 
+
+
+with open('s1queries.txt','w') as s1queryfile:
+    i = 1
+    for haztype in s1tree:
+        orderval = 1
+        systemid = 1
+        for orderval in range(len(s1tree[haztype])):
+            hazcat = s1tree[haztype][orderval]
+            masthaztypeid = list(s1tree.keys()).index(haztype) + 1
+            query = 'db.MasterHazardCategoryType.insert('+'{' +\
+            '"Index":{0}, "Order":{1}, "HazardCategoryType":"'.format(i,orderval + 1) +\
+            '{0}", "SystemId":{1}, "MasterHazardTypeId":{2}, "ParendId":null'.format(hazcat,1,masthaztypeid)+'}'+');\n'
+            s1queryfile.write(query)
+            i +=1
+s1queryfile.close()
+        
 end  = time.time()
 print(end - start)
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
