@@ -1,4 +1,6 @@
+#pumpernickel90-B1-1C-99-F1-6620214
 import hashlib
+import numpy as np
 class datahash:
     def __init__(self):
         #[Salt, mac address, year in string format, month number in string format]
@@ -27,10 +29,13 @@ class datahash:
         #Engine.update([uint8(class(Data)), typecast(size(Data), 'uint8')])
 
         asciibytearray = [ord(i) for i in list('char')]
-
-
-
-
-
+        shape_dim1 = 1
+        shape_dim2 = np.array(list(dataarraystring)).shape[0]
+        #The mapping of double datatype in MATLAB is equivalent to Float in Python
+        #Each byte consists of 64 bits in MATLAB
+        #Make a numpy array of np.float64 mapping
+        #convert to np. to make it unsigned integer of 8 bit per byte format
+        datasize_int8 = np.array([shape_dim1,shape_dim2],dtype = np.float64).view(np.uint8)
+        np.append(np.array(asciibytearray).view(np.uint8)[[0,4,8,12]],datasize_int8.reshape(1,-1))
 
         pass
