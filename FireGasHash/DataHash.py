@@ -9,15 +9,16 @@ class datahash:
         self.OutFormat = 'hex'
         self.isFile = False
         self.isBin = False
-
+        self.salt = 'pumpernickel'
     def hashing(self,dataarray):
         #dataarray is a list
         #md5 object 
         self.data = dataarray
         if (type(dataarray) == list):
                 hashlib_object = hashlib.md5()
+                dataarray.insert(0,self.salt)
                 dataarraystring = ''.join(dataarray)
-                print(self.CoreDataHash(dataarraystring,hashlib_object))
+                return self.CoreDataHash(dataarraystring,hashlib_object)
         else:
             raise TypeError("Dataarray needs to be of type list")
 

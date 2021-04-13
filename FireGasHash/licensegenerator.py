@@ -2,14 +2,15 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox
 import DataHash
 from getmac import get_mac_address as gma
-
+import os
 class parentClass(tk.Tk):
     def __init__(self,*args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
         #create a container to pack your first frame into 
-        self.geometry('200x200')
+        self.geometry('250x300')
         self.title('License Generator')
         self.licContainer = tk.Frame(self)
         self.licContainer.pack(fill = 'both', expand = True)
@@ -28,19 +29,50 @@ class licenseframe(tk.Frame):
         self.testlabel = tk.Label(self.macaddressframe, text = self.macaddress, padx = 10, pady = 10)
         self.testlabel.grid(row = 1, column = 1)
 
-        self.monthframe  = tk.LabelFrame(self)
-        self.monthframe.pack(side = 'top',fill = 'both', padx = 10, pady = 10)
-        self.selectyearlabel = tk.Label(self.monthframe, text = 'Select Year', padx = 10, pady = 10)
+        self.yearframe  = tk.LabelFrame(self)
+        self.yearframe.pack(side = 'top',fill = 'both', padx = 10, pady = 10)
+        self.selectyearlabel = tk.Label(self.yearframe, text = 'Select Year', padx = 10, pady = 10)
         self.selectyearlabel.grid(row = 2, column = 0)
         self.yearvar = tk.StringVar()
-        self.yearmenu = tk.OptionMenu(self.monthframe,self.yearvar,())
+        self.yearmenu = tk.OptionMenu(self.yearframe,self.yearvar,())
         self.yearmenu.grid(row = 2, column = 1)
         yearmenu = self.yearmenu['menu']
         yearlist = [str(i) for i in list(range(2000,2100))]
         [yearmenu.add_command(label = year, command = lambda value = year:self.yearvar.set(value)) for year in yearlist]
         self.yearvar.set('Select Year')
-        #self.testlabel2 = tk.Label(self.monthframe, text = 'Upload Weather Data Txt Files', padx = 10, pady = 10)
-        #self.testlabel2.grid(row = 1, column = 1)
+
+        self.monthframe  = tk.LabelFrame(self)
+        self.monthframe.pack(side = 'top',fill = 'both', padx = 10, pady = 10)
+        self.selectmonthlabel = tk.Label(self.monthframe, text = 'Select Month', padx = 10, pady = 10)
+        self.selectmonthlabel.grid(row = 3, column = 0)
+        self.monthvar = tk.StringVar()
+        self.monthmenu = tk.OptionMenu(self.monthframe,self.monthvar,())
+        self.monthmenu.grid(row = 3, column = 1)
+        monthmenu = self.monthmenu['menu']
+        monthlist = [str(i) for i in list(range(1,13))]
+        [monthmenu.add_command(label = month, command = lambda value = month:self.monthvar.set(value)) for month in monthlist]
+        self.monthvar.set('Select Month')
+
+        self.buttonframe = tk.LabelFrame(self)
+        self.buttonframe.pack(side = 'top', fill = 'both', padx = 10, pady = 10)
+        self.generateButton = tk.Button(self.buttonframe, text = 'Generate Hash', command = lambda: self.generateHash())
+        self.generateButton.grid(row = 1, column = 1, padx = 60, pady = 10)
+
+
+    def generateHash(self):
+        if ((self.yearvar.get() != 'Select Year') & (self.monthvar.get() != 'Select Month')):
+            savepath = filedialog.askdirectory()
+            os.chdir(savepath)
+            datahasher = DataHash.datahash()
+            dataarray = list()
+            dataarray.append(self.macaddress)
+            dataarray.append(self.yearvar.get())
+            dataarray.append(self.monthvar.get())
+            with open('license.lic','w') as licfile:
+                licfile.write(datahasher.hashing(dataarray))
+            licfile.close()
+        else:
+            messagebox.showerror('Error','Select Year and Month')
 
 
 root = parentClass()
