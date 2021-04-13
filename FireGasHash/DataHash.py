@@ -17,11 +17,11 @@ class datahash:
         if (type(dataarray) == list):
                 hashlib_object = hashlib.md5()
                 dataarraystring = ''.join(dataarray)
-                self.CoreHash(dataarraystring,hashlib_object)
+                print(self.CoreDataHash(dataarraystring,hashlib_object))
         else:
             raise TypeError("Dataarray needs to be of type list")
 
-    def CoreHash(self, dataarraystring, hashlib_object):
+    def CoreDataHash(self, dataarraystring, hashlib_object):
         #data coming in will always be of string type
         #as this is being reproduced using MATLAB, only with specific lines of code in mind, the first part will be hardcoded
         #string in Matlab is taken as char
@@ -36,6 +36,15 @@ class datahash:
         #Make a numpy array of np.float64 mapping
         #convert to np. to make it unsigned integer of 8 bit per byte format
         datasize_int8 = np.array([shape_dim1,shape_dim2],dtype = np.float64).view(np.uint8)
-        np.append(np.array(asciibytearray).view(np.uint8)[[0,4,8,12]],datasize_int8.reshape(1,-1))
+        bt_1 = np.append(np.array(asciibytearray).view(np.uint8)[[0,4,8,12]],datasize_int8.reshape(1,-1))
+        hashlib_object.update(bt_1)
 
-        pass
+        #the output of hashlib_object.digest() will be on int32 format while MATLAB is int8
+        final_update = np.array([np.array([ord(i) for i  in list(dataarraystring)]).view(np.uint16)[i] for i in range(0,np.array([ord(i) for i  in list(dataarraystring)]).view(np.uint16).shape[0]) if i%2 == 0]).view(np.uint8)
+        hashlib_object.update(final_update)
+
+        return(hashlib_object.hexdigest())
+
+
+test = datahash()
+test.hashing(['pasindu','90-B1-1C-99-F1-66', '2021', '4'])
