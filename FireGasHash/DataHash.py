@@ -46,6 +46,6 @@ class datahash:
 
         return(hashlib_object.hexdigest())
 
-""" 
-test = datahash()
-test.hashing(['pasindu','90-B1-1C-99-F1-66', '2021', '4']) """
+
+#test = datahash()
+#print(test.hashing(['90-B1-1C-99-F1-66', '2021', '4']))
