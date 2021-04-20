@@ -25,14 +25,15 @@ if current != "":
             for annot in pg.annots():
                 if((annot.type[1] == 'FreeText') & (node in annot.info["content"].split(" "))):
                     node_pg_count.append(i)
-        for pg_num in node_pg_count:
-            nodefile.insert_pdf(doc,pg_num,pg_num,annots=True)
-            #nodefile.save()
-        #nodefile.insert_pdf(doc, extract_pg])
-        path = os.path.join(current,node)
-        os.makedirs(path)
-        pdf_path = os.path.join(path,node + '.pdf')
-        nodefile.save(pdf_path)
-        nodefile.close()
+        if (len(node_pg_count) != 0):
+            for pg_num in node_pg_count:
+                nodefile.insert_pdf(doc,pg_num,pg_num,annots=True)
+                #nodefile.save()
+            #nodefile.insert_pdf(doc, extract_pg])
+            path = os.path.join(current,node)
+            os.makedirs(path)
+            pdf_path = os.path.join(path,node + '.pdf')
+            nodefile.save(pdf_path)
+            nodefile.close()
         #with open(pdf_path,'wb') as abc:
         #    nodefile.write(abc)
