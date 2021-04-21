@@ -13,7 +13,7 @@ csv_file_name = filedialog.askopenfilename(title = 'Select CSV file with node li
 #binderpdf = PyPDF2.PdfFileReader("Acid Gas Removal Unit_Node mark-up_31Mar2021.pdf",'rb')
 
 
-if current != "":
+if (current != "") & (binder_file_name != "") & (csv_file_name != ""):
     doc = fitz.open(binder_file_name)
     node_df = pd.read_csv(csv_file_name)
     node_list = node_df["Nodes"].tolist()
