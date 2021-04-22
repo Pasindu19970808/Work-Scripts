@@ -67,9 +67,13 @@ class displayframe(tk.Frame):
 
     def showpdf(self,pgnum = None):
         if pgnum is None:
-            mode = "RGBA" if self.pix_list[0].alpha else "RGB"
+            """ mode = "RGBA" if self.pix_list[0].alpha else "RGB"
             page_img = ImageTk.PhotoImage(Image.frombytes(mode, [self.pix_list[0].width, self.pix_list[0].height],self.pix_list[0].samples))
-            self.pdf_display.configure(image = page_img)
+            self.pdf_display.configure(image = page_img) """
+            pix1 = fitz.Pixmap(self.pix_list[0], 0) if self.pix_list[0].alpha else self.pix_list[0]  # PPM does not support transparency
+            imgdata = pix1.getImageData("ppm")  
+            tkimg = tk.PhotoImage(data = imgdata)
+            self.pdf_display.configure(image = tkimg)
 
 root = parentClass()
 root.mainloop()
