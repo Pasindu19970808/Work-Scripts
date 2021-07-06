@@ -5,6 +5,7 @@ from tkinter import messagebox
 import fitz
 from PIL import ImageTk
 from PIL import Image
+from tkinter import Canvas
 
 class parentClass(tk.Tk):
     def __init__(self,*args,**kwargs):
@@ -49,8 +50,8 @@ class displayframe(tk.Frame):
         self.left_scroll_button = tk.Button(self.left_scroll_frame, text = "<")
         self.left_scroll_button.grid(row = 1, column = 1, padx = 10, pady = 10)
 
-        self.pdf_display = tk.Label(self.display_frame)
-        self.pdf_display.grid(row = 1, column = 1)
+        #self.pdf_display = tk.Label(self.display_frame)
+        #self.pdf_display.grid(row = 1, column = 1)
 
         self.right_scroll_button = tk.Button(self.right_scroll_frame, text = ">")
         self.right_scroll_button.grid(row = 1, column = 1, padx = 10, pady = 10)
@@ -67,13 +68,18 @@ class displayframe(tk.Frame):
 
     def showpdf(self,pgnum = None):
         if pgnum is None:
-            """ mode = "RGBA" if self.pix_list[0].alpha else "RGB"
-            page_img = ImageTk.PhotoImage(Image.frombytes(mode, [self.pix_list[0].width, self.pix_list[0].height],self.pix_list[0].samples))
-            self.pdf_display.configure(image = page_img) """
-            pix1 = fitz.Pixmap(self.pix_list[0], 0) if self.pix_list[0].alpha else self.pix_list[0]  # PPM does not support transparency
+            mode = "RGBA" if self.pix_list[0].alpha else "RGB"
+            page_img = Image.frombytes(mode, [self.pix_list[0].width, self.pix_list[0].height],self.pix_list[0].samples)
+            page_photo= ImageTk.PhotoImage(page_img)
+            #self.pdf_display.configure(image = page_img)
+            """ pix1 = fitz.Pixmap(self.pix_list[0], 0) if self.pix_list[0].alpha else self.pix_list[0]  # PPM does not support transparency
             imgdata = pix1.getImageData("ppm")  
-            tkimg = tk.PhotoImage(data = imgdata)
-            self.pdf_display.configure(image = tkimg)
+            tkimg = tk.PhotoImage(data = imgdata) """
+            canvas = Canvas(self.display_frame, width=page_img.size[0]+20, 
+            height=page_img.size[1]+20)
+            canvas.create_image(10, 10, anchor='nw', image=page_photo)
+            canvas.pack(fill='both', expand=1)
+            #self.pdf_display.configure(image = tkimg)
 
 root = parentClass()
 root.mainloop()
