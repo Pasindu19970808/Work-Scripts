@@ -6,6 +6,7 @@ from tkinter import messagebox
 import DataHash
 from getmac import get_mac_address as gma
 import os
+import re
 class parentClass(tk.Tk):
     def __init__(self,*args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
@@ -25,9 +26,13 @@ class licenseframe(tk.Frame):
 
         self.macaddressframe = tk.LabelFrame(self)
         self.macaddressframe.pack(side = 'top', fill = 'both', padx = 10, pady = 10)
-        self.macaddress = ''.join([j.upper() for j in ['-' if i == ':' else i for i  in list(gma())]])
-        self.testlabel = tk.Label(self.macaddressframe, text = self.macaddress, padx = 10, pady = 10)
-        self.testlabel.grid(row = 1, column = 1)
+        #self.macaddress = ''.join([j.upper() for j in ['-' if i == ':' else i for i  in list(gma())]])
+        self.macstring = tk.StringVar()
+        self.macstring.set("Enter MAC Address")
+        self.macaddress = tk.Entry(self.macaddressframe, textvariable=self.macstring, width = 30) 
+        self.macaddress.pack(side = 'left', fill = 'both',padx = 10, pady = 10)
+        #self.testlabel = tk.Label(self.macaddressframe, text = self.macaddress, padx = 10, pady = 10)
+        #self.testlabel.grid(row = 1, column = 1)
 
         self.yearframe  = tk.LabelFrame(self)
         self.yearframe.pack(side = 'top',fill = 'both', padx = 10, pady = 10)
@@ -60,17 +65,22 @@ class licenseframe(tk.Frame):
 
 
     def generateHash(self):
-        if ((self.yearvar.get() != 'Select Year') & (self.monthvar.get() != 'Select Month')):
+        sanitycheck = False
+        if(len(re.findall(r'[^0-9A-Z-]',self.macstring.get().strip())) == 0):
+            sanitycheck = True
+        if ((self.yearvar.get() != 'Select Year') & (self.monthvar.get() != 'Select Month') & sanitycheck == True):
             savepath = filedialog.askdirectory()
             os.chdir(savepath)
             datahasher = DataHash.datahash()
             dataarray = list()
-            dataarray.append(self.macaddress)
+            dataarray.append(str(self.macstring.get().strip()))
             dataarray.append(self.yearvar.get())
             dataarray.append(self.monthvar.get())
             with open('license.lic','w') as licfile:
                 licfile.write(datahasher.hashing(dataarray))
             licfile.close()
+        elif(sanitycheck == False):
+            messagebox.showerror('Error','Invalid MAC Address entered')
         else:
             messagebox.showerror('Error','Select Year and Month')
 
